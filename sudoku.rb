@@ -30,6 +30,44 @@ class SudokuGame
     val
   end
 
+  def parse_pos(string)
+    string.split(",").map { |char| Integer(char) }
+  end
 
+  def parse_val(string)
+    Integer(string)
+  end
+
+  def play_turn
+    board.render
+    pos = get_pos
+    val = get_val
+    board[pos] = val
+  end
+
+  def run
+    play_turn until solved?
+    board.render
+    puts "Congratulations, you win!"
+  end
+
+  def solved?
+    board.solved?
+  end
+
+  def valid_pos?(pos)
+    pos.is_a?(Array) &&
+      pos.length == 2 &&
+      pos.all? { |x| x.between?(0, board.size - 1) }
+  end
+
+  def valid_val?(val)
+    val.is_a?(Integer) &&
+      val.between?(0, 9)
+  end
+
+  private
+  
+  attr_reader :board
 end
 
